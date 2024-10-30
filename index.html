@@ -65,37 +65,76 @@
         }
     </style>
 </head>
-<body>
+<body onload="generateIdAppCache()">
     <div class="container">
         <h2>Gartic Login</h2>
         <div class="input-group">
             <label for="login">Login</label>
-            <input type="text" id="login" placeholder="Enter your login">
+            <input type="text" id="login" placeholder="Enter your login" oninput="generateIdAppCache()">
         </div>
         <div class="input-group">
             <label for="sala">Room ID (sala)</label>
-            <input type="number" id="sala" placeholder="Enter room ID">
+            <input type="number" id="sala" placeholder="Enter room ID" oninput="generateIdAppCache()">
         </div>
-        <button class="btn" onclick="generateIdApp()">Generate IDApp & Cache</button>
-        <button class="btn" onclick="generateLink()">Generate Room Link</button>
+        <button class="btn" onclick="attemptLogin()">Enter Room</button>
         <div class="link-output" id="linkOutput"></div>
     </div>
 
     <script>
-        function generateIdApp() {
-            const idapp = Math.random().toString(36).substring(2, 18);
-            const cache = Date.now();
-            alert(`Generated IDApp: ${idapp}\nGenerated Cache: ${cache}`);
+        let idapp, cache;
+
+        function generateIdAppCache() {
+            idapp = Math.random().toString(36).substring(2, 18); // Random 16-character ID
+            cache = Date.now(); // Current timestamp as cache
+            updateLink();
         }
 
-        function generateLink() {
-            const login = document.getElementById("login").value;
+        function updateLink() {
             const sala = document.getElementById("sala").value;
             const linkOutput = document.getElementById("linkOutput");
 
-            if (login && sala) {
-                const link = `https://gartic.com.br/0${sala}/173xxxxxxxxxxxxxx`;
+            if (sala) {
+                const link = `https://gartic.com.br/0${sala}`;
                 linkOutput.innerHTML = `<p>Generated Link:</p><a href="${link}" target="_blank">${link}</a>`;
+            } else {
+                linkOutput.innerHTML = "";
+            }
+        }
+
+        function attemptLogin() {
+            const login = document.getElementById("login").value;
+            const sala = document.getElementById("sala").value;
+
+            if (login && sala) {
+                const payload = {
+                    login: login,
+                    sala: sala,
+                    avatar: 0,
+                    local: 4,
+                    senha: null,
+                    idioma: 1,
+                    idapp: idapp,
+                    cache: cache
+                };
+                
+                console.log("Attempting to log in with payload:", payload);
+                
+                // Simulate a login attempt to show the payload structure
+                alert(`Login attempt for room ${sala} with:\nIDApp: ${idapp}\nCache: ${cache}`);
+                
+                // Replace this with an actual call to the backend if needed
+                // fetch('https://gartic.pics/r/join', {
+                //     method: 'POST',
+                //     headers: {
+                //         'Content-Type': 'application/json'
+                //     },
+                //     body: JSON.stringify(payload)
+                // }).then(response => response.json()).then(data => {
+                //     console.log(data);
+                //     alert(data.message || "Login successful");
+                // }).catch(error => {
+                //     console.error('Error:', error);
+                // });
             } else {
                 alert("Please enter both login and room ID.");
             }
