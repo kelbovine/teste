@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gartic Login Interface</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        .container h2 {
+            margin-bottom: 20px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background-color: #218838;
+        }
+        .link-output {
+            margin-top: 20px;
+        }
+        .link-output a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .link-output a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Gartic Login</h2>
+        <div class="input-group">
+            <label for="login">Login</label>
+            <input type="text" id="login" placeholder="Enter your login">
+        </div>
+        <div class="input-group">
+            <label for="sala">Room ID (sala)</label>
+            <input type="number" id="sala" placeholder="Enter room ID">
+        </div>
+        <button class="btn" onclick="generateIdApp()">Generate IDApp & Cache</button>
+        <button class="btn" onclick="generateLink()">Generate Room Link</button>
+        <div class="link-output" id="linkOutput"></div>
+    </div>
+
+    <script>
+        function generateIdApp() {
+            const idapp = Math.random().toString(36).substring(2, 18);
+            const cache = Date.now();
+            alert(`Generated IDApp: ${idapp}\nGenerated Cache: ${cache}`);
+        }
+
+        function generateLink() {
+            const login = document.getElementById("login").value;
+            const sala = document.getElementById("sala").value;
+            const linkOutput = document.getElementById("linkOutput");
+
+            if (login && sala) {
+                const link = `https://gartic.com.br/0${sala}/173xxxxxxxxxxxxxx`;
+                linkOutput.innerHTML = `<p>Generated Link:</p><a href="${link}" target="_blank">${link}</a>`;
+            } else {
+                alert("Please enter both login and room ID.");
+            }
+        }
+    </script>
+</body>
+</html>
